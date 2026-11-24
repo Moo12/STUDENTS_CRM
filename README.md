@@ -33,3 +33,4 @@ A lightweight, self-hosted, single-user CRM for a private math and physics tutor
 ## Mandatory Skill Usage
 - When creating or modifying API endpoints, database models, or n8n payloads, follow `.claude/skills/n8n-webhook-contract/SKILL.md`.
 - When modifying `Dockerfile`, `docker-compose.yml`, Alembic startup commands, Nginx configs, or backup scripts, follow `.claude/skills/vps-docker-deploy/SKILL.md`.
+- When committing, branching, or pushing, follow `.claude/skills/git/skill.md`.
