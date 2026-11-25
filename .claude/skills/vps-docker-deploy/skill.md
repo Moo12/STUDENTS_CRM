@@ -7,7 +7,9 @@ description: Configures Docker Compose, app-level session cookie auth, Alembic m
 ## 1. Docker Compose & Networking
 
 - Package the CRM into a lean container (`python:3.12-slim`), target <150 MB RAM.
-- Attach the CRM service to the existing external Docker network used by n8n (configurable via `N8N_DOCKER_NETWORK`, default `n8n_default`) so n8n and the CRM communicate over internal Docker DNS (`http://tutor-crm:8000`) without public internet round-trips.
+- Attach the CRM service to the existing external Docker network used by n8n (`agency-net`) so n8n and the CRM communicate over internal Docker DNS without public internet round-trips.
+-   - n8n is reachable inside the network at `http://n8n-welder:5678`
+  - Declare `agency-net` as an external network in `docker-compose.yml` (it already exists on the VPS, do not recreate it)
 - Mount `./data:/app/data` as a persistent volume for the SQLite database (`crm.db`, `crm.db-wal`, `crm.db-shm`).
 - The frontend is served by FastAPI (Jinja2 templates + static files) — no separate frontend container or build step.
 
@@ -56,7 +58,10 @@ APP_PASSWORD=
 APP_SECRET_KEY=
 SESSION_MAX_AGE_SECONDS=2592000
 WEBHOOK_SECRET=
-N8N_DOCKER_NETWORK=n8n_default
+# Docker network shared with n8n (already exists on VPS as "agency-net")
+N8N_DOCKER_NETWORK=agency-net
+# n8n internal address within agency-net
+N8N_BASE_URL=http://n8n-welder:5678
 N8N_WEBHOOK_URL_LEAD_CREATED=
 ALLOWED_ORIGINS=https://crm.yourdomain.com
 ```
